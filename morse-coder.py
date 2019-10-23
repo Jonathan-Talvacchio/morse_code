@@ -59,6 +59,9 @@ def main():
         if user_input == '/t':
             to_morse = not to_morse
             continue
+        if user_input == '/c':
+            clear_term()
+            continue
 
         if to_morse:
             new_string = to_morse_code(user_input, morse_dictionary)
