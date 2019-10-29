@@ -12,7 +12,15 @@ def clear_term():
 
 def load_dict():
     try:
-        with open('morse-code.json') as json_file:
+        DICTIONARY_NAME = 'morse-code.json'
+
+        # get script file for dictionary
+        current_file = __file__
+        real_path = os.path.realpath(current_file)
+        dir_path = os.path.dirname(real_path)
+        dictionary_file = '{}/{}'.format(dir_path, DICTIONARY_NAME)
+
+        with open(dictionary_file) as json_file:
             data = json.load(json_file)
     except:
         print('morse-code dictionary not loaded correctly!')
@@ -28,7 +36,7 @@ def to_morse_code(input_array, dictionary):
             value = '{} '.format(dictionary[letter])
             new_array.append(value)
         else:
-            new_array.append('{}: {} '.format("Character not found", letter))
+            new_array.append('{}: {} '.format("CHAR not found", letter))
     new_string = ''.join(new_array)
     return new_string
 
@@ -47,29 +55,31 @@ def main():
         # load morse code dictionary
         morse_dictionary = load_dict()
         if morse_dictionary == None:
-            return None
+            quit()
 
         # create reverse dictionary
         r_dictionary = reverse_dictionary(morse_dictionary)
 
-        prompt_message = 'Enter Message: ' if to_morse else 'Enter Code: '
-        user_input = input(prompt_message)
-        user_input = user_input.lower()
+        message_prompt = 'Enter Message: ' if to_morse else 'Enter Code: '
+        usr_input = input(message_prompt)
+        usr_input = usr_input.lower()
 
-        if user_input == '/t':
+        if usr_input == '/t':
             to_morse = not to_morse
             continue
-        if user_input == '/c':
+        if usr_input == '/c':
             clear_term()
             continue
+        if usr_input == '/q':
+            quit()
 
         if to_morse:
-            new_string = to_morse_code(user_input, morse_dictionary)
+            return_string = to_morse_code(usr_input, morse_dictionary)
         else:
-            user_input = user_input.split()
-            new_string = to_morse_code(user_input, r_dictionary)
+            usr_input = usr_input.split()
+            return_string = to_morse_code(usr_input, r_dictionary)
 
-        print(new_string)
+        print(return_string)
 
 
 if __name__ == "__main__":
