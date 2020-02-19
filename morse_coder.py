@@ -4,26 +4,26 @@ from sys import platform
 
 
 def clear_term():
-    if platform == 'win32':
-        os.system('cls')
+    if platform == "win32":
+        os.system("cls")
     else:
-        os.system('clear')
+        os.system("clear")
 
 
 def load_dict():
     try:
-        DICTIONARY_NAME = 'morse-code.json'
+        DICTIONARY_NAME = "morse_code.json"
 
         # get script file for dictionary
         current_file = __file__
         real_path = os.path.realpath(current_file)
         dir_path = os.path.dirname(real_path)
-        dictionary_file = '{}/{}'.format(dir_path, DICTIONARY_NAME)
+        dictionary_file = "{}/{}".format(dir_path, DICTIONARY_NAME)
 
         with open(dictionary_file) as json_file:
             data = json.load(json_file)
     except:
-        print('morse-code dictionary not loaded correctly!')
+        print("morse_code.json dictionary not loaded correctly!")
         return None
     else:
         return data
@@ -33,11 +33,11 @@ def to_morse_code(input_array, dictionary):
     new_array = []
     for letter in input_array:
         if letter in dictionary.keys():
-            value = '{} '.format(dictionary[letter])
+            value = "{} ".format(dictionary[letter])
             new_array.append(value)
         else:
-            new_array.append('{}: {} '.format("CHAR not found", letter))
-    new_string = ''.join(new_array)
+            new_array.append("{}: {} ".format("CHAR not found", letter))
+    new_string = "".join(new_array)
     return new_string
 
 
@@ -60,17 +60,17 @@ def main():
         # create reverse dictionary
         r_dictionary = reverse_dictionary(morse_dictionary)
 
-        message_prompt = 'Enter Message: ' if to_morse else 'Enter Code: '
+        message_prompt = "Enter Message: " if to_morse else "Enter Code: "
         usr_input = input(message_prompt)
         usr_input = usr_input.lower()
 
-        if usr_input == '/t':
+        if usr_input == "/t":
             to_morse = not to_morse
             continue
-        if usr_input == '/c':
+        if usr_input == "/c":
             clear_term()
             continue
-        if usr_input == '/q':
+        if usr_input == "/q":
             quit()
 
         if to_morse:
