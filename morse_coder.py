@@ -22,18 +22,19 @@ def load_dict():
 
         with open(dictionary_file) as json_file:
             data = json.load(json_file)
-    except:
-        print("morse_code.json dictionary not loaded correctly!")
+    except Exception as e:
+        print(f"morse_code.json dictionary not loaded correctly!\n"
+              f"{e}")
         return None
     else:
         return data
 
 
-def to_morse_code(input_array, dictionary):
+def translator(input_array, dictionary):
     new_array = []
     for letter in input_array:
         if letter in dictionary.keys():
-            value = "{} ".format(dictionary[letter])
+            value = f"{dictionary[letter]} "
             new_array.append(value)
         else:
             new_array.append("{}: {} ".format("CHAR not found", letter))
@@ -54,7 +55,7 @@ def main():
     while True:
         # load morse code dictionary
         morse_dictionary = load_dict()
-        if morse_dictionary == None:
+        if morse_dictionary is None:
             quit()
 
         # create reverse dictionary
@@ -73,11 +74,13 @@ def main():
         if usr_input == "/q":
             quit()
 
+        # Translate to mores code
         if to_morse:
-            return_string = to_morse_code(usr_input, morse_dictionary)
+            return_string = translator(usr_input, morse_dictionary)
+        # Translate to English
         else:
             usr_input = usr_input.split()
-            return_string = to_morse_code(usr_input, r_dictionary)
+            return_string = translator(usr_input, r_dictionary)
 
         print(return_string)
 
